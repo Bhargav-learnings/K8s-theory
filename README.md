@@ -18,6 +18,8 @@ Thrugh this config file, Kubectl will interact with api server.
 
 **ETCD** : It is a kind of Data base to k8s and K8s uses etcd to store the cluster data. The data stored in ETCD is in key-Value distrubuted type data store.
            It contains all the Info of Pods & Nodes. Some of the data stores in ETCD such as Job scheduling into Pods, state info etc..
+           ETCD stores the info about cluster such as nodes pods configs secrets accounts roles bindings etc..
+           Every information we see when we run the kubectl command is from the ETCD server.
 
 **Scheduler** : Responsible for scheduling the pods to Nodes.
                 Scheduler will verify the ETCD means Scheduler will check in ETCD & schedules the Nodes to Pods which are unscheduled & scheduler will decide which pod should deploy                      on which Node.
