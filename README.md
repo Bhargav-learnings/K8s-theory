@@ -16,10 +16,13 @@ Thrugh this config file, Kubectl will interact with api server.
                  will Authentciate and Authorize the request & it will validate and process the request, and these details will be 
                  presisted in **ETCD**
 
-**ETCD** : It is a kind of Data base to k8s and K8s uses etcd to store the cluster data. The data stored in ETCD is in key-Value distrubuted type data store.
+  **ETCD** : It is a kind of Data base to k8s and K8s uses etcd to store the cluster data. The data stored in ETCD is in key-Value distrubuted type data store.
            It contains all the Info of Pods & Nodes. Some of the data stores in ETCD such as Job scheduling into Pods, state info etc..
            ETCD stores the info about cluster such as nodes pods configs secrets accounts roles bindings etc..
-           Every information we see when we run the kubectl command is from the ETCD server.
+           Every information we see when we run the kubectl command is from the ETCD server. 
+           
+                  **By default ETCD listens on port 2379**
+                  advertise client is the URl that should conf on kubeapi server when it tries to reach etcd server
 
 **Scheduler** : Responsible for scheduling the pods to Nodes.
                 Scheduler will verify the ETCD means Scheduler will check in ETCD & schedules the Nodes to Pods which are unscheduled & scheduler will decide which pod should deploy                      on which Node.
@@ -38,6 +41,14 @@ Thrugh this config file, Kubectl will interact with api server.
 
 **Kubeproxy** : N/W proxy .If we want to access the containers wihtin the cluster or outside the cluster wiuth the help of Kubeproxy.
                 Service is a logical concept but actual work will be done by Kubeproxy.This service ensures that necessary rules are in place.
+
+ 
+ 
+ **WORKFLOW** : When user run a command using kubectl, first the req goes to K.API server, and firstly the K.API server will authenticate the req and then validates it and stores the same in ETCD.Here when user requests to create a pod the K.API server will create it and dont assign any Node to that pod, Now the scheduler will continously monitors the K.API server 
+ and idnetifies tat there is POD which no Node is assigned and Scheduler will select the appropraite Node to that POD and informs same to K.API server and K.API server updates the same in ETCD and passes the info to Kubelet which is on appropraite Node.
+
+Kubelet will create the pod on the Node and instructs the container runtime engine to deploy the application image, once the pod deployed the Kubelet will update the info to K.API server and the same will be updated to ETCD. Similiar work flow will be done everytime when change is requested
+
 
            
                 
